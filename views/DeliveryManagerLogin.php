@@ -1,8 +1,12 @@
 <?php
 	session_start();
 
-	if($_SESSION['isLogged']){
-		header('../views/DeliveryManagerDashboard.php');
+	if(isset($_SESSION['isLogged'])){
+		if($_SESSION['isLogged']){
+			header('Location: ../controller/DeliveryManagerDashboardController.php');
+			exit();
+		}
+		
 	}
 ?>
 <!DOCTYPE html>

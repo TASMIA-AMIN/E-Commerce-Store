@@ -18,7 +18,7 @@
 			$_SESSION['isLogged'] = true;
 			$_SESSION['username'] = getUserName($conn, $userPhone);
 			
-			header('Location: ../views/DeliveryManagerDashboard.php');
+			header('Location: ../controller/DeliveryManagerDashboardController.php');
 			Close($conn);
 			exit();
 
