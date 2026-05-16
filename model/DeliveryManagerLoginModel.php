@@ -24,6 +24,18 @@
 		$row = mysqli_fetch_assoc($result);
 		return $row['name'];
 	}
+}
+
+	function getUserId($conn, $userPhone){
+
+	$sql = "SELECT id FROM users WHERE phone = '$userPhone'";
+
+	$result = mysqli_query($conn, $sql);
+
+	if(mysqli_num_rows($result) == 1){
+		$row = mysqli_fetch_assoc($result);
+		return $row['id'];
+	}
 
 	return null;
 }

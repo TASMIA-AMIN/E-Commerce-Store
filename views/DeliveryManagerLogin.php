@@ -1,5 +1,4 @@
 <?php
-	session_start();
 
 	if(isset($_SESSION['isLogged'])){
 		if($_SESSION['isLogged']){
@@ -17,7 +16,7 @@
 	<title>Delivery Manager Login Page</title>
 </head>
 <body>
-	<form method="post" onsubmit="return checkLoginFields(this)" action= "../controller/DeliveryManagerLoginController.php">
+	<form method="post" action= "../controller/DeliveryManagerLoginController.php" onsubmit="return checkLoginFields(this)">
 		<h1>Deliver Manager Login</h1>
 		<table>
 			<tr>
@@ -30,7 +29,7 @@
 					<br><br>
 				</td>
 				<td>
-					<span id="userPhoneErr"></span>
+					<span id="userPhoneErr"><?php echo isset($userPhoneErr) ? $userPhoneErr : ""; ?></span>
 					<br><br>
 				</td>
 			</tr>
@@ -44,7 +43,7 @@
 					<br><br>
 				</td>
 				<td>
-					<span id="userPassErr"></span>
+					<span id="userPassErr"><?php echo isset($userPassErr) ? $userPassErr : ""; ?></span>
 					<br><br>
 				<td>
 			</tr>
@@ -54,9 +53,10 @@
 	<br><br>
 	<div id="msg"><?php echo isset($_SESSION['loginMsg']) ? $_SESSION['loginMsg'] : "";
 	unset($_SESSION['loginMsg']);
+	#
 	?></div>
 
-	<script src=" ../asset/checkLogin.js"></script>
+	<script src=" ../asset/js/checkLogin.js"></script>
 
 </body>
 	

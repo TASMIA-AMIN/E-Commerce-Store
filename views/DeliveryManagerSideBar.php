@@ -1,7 +1,7 @@
 <li>
     Delivery Agents Menu
     <ul>
-        <li class=><a href="../views/DeliveryManagerManageAgents.php">Manage Agents</a></li>
+        <li class=><a href="../controller/DeliveryManagerManageAgentController.php">Manage Agents</a></li>
         <li><a href="../views/DeliveryManagerViewAgents.php">View Agents</a></li>
         <li><a href="../views/DeliveryManagerAssignAgents.php">Assign Agents</a></li>
         <li><a href="../views/DeliveryManagerAgentPerfReport.php">Agent Performance Report</a></li>
@@ -27,4 +27,5 @@
 		<li><a href="../views/DeliveryManagerZonePerfReport.php">Zone Performance Report</a></li>
 	</ul>
 </li>
+<li><a href="../controller/DeliveryManagerManageAccount.php">Manage Account</a></li>
 <li><a href="../controller/DeliveryManagerLogoutController.php">Logout</a></li>

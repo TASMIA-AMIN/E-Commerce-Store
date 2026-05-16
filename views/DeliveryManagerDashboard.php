@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if(!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']){
-		header('Location: ../views/DeliveryManagerLogin.php');
+		header('Location: ../controller/DeliveryManagerLoginController.php');
 		exit();
 	}
 
