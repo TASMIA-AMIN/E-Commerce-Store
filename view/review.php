@@ -1,10 +1,10 @@
 <?php
-// views/review.php
-$pageTitle  = 'Product Reviews';
-$activePage = 'reviews';
-require_once __DIR__ . '/partials/header.php';
 
-$reviews     = $_SESSION['reviews'] ?? [];
+$reviews    = $reviews ?? [];
+$pageTitle  = 'Product Reviews';
+$activePage = 'review';
+include __DIR__ . '/header.php';
+
 $count       = count($reviews);
 $totalRating = 0;
 foreach ($reviews as $r) { $totalRating += $r['rating']; }
@@ -60,4 +60,4 @@ $avgRating = $count > 0 ? round($totalRating / $count, 1) : 0;
     <?php endforeach; ?>
 <?php endif; ?>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

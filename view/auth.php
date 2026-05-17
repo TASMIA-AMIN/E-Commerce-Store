@@ -1,49 +1,39 @@
 <?php
-// views/auth.php
-// Rendered by AuthController for actions: login | register | profile
-// $action is set by the controller
 
 $action  = $action ?? 'login';
-$profile = $_SESSION['seller_profile'] ?? [];
+$profile = isset($profile) ? $profile : [];
 
-// Auth pages (login/register) use a minimal wrapper, not the navbar header
+$flashMsg   = $_SESSION['msg']   ?? '';
+$flashError = $_SESSION['error'] ?? '';
+$_SESSION['msg']   = '';
+$_SESSION['error'] = '';
+
 $isAuthPage = in_array($action, ['login', 'register']);
+
+if (!$isAuthPage) {
+    $pageTitle  = 'My Profile';
+    $activePage = 'profile';
+    include __DIR__ . '/header.php';
+} else {
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?php
-        echo $action === 'login'    ? 'Seller Login'        :
-            ($action === 'register' ? 'Seller Registration' : 'My Profile');
-        ?> | E-Commerce
-    </title>
-    <link rel="stylesheet" href="../views/css/seller.css">
+    <title><?php echo $action === 'register' ? 'Seller Registration' : 'Seller Login'; ?> | E-Commerce</title>
+    <link rel="stylesheet" href="../view/css/external.css">
 </head>
 <body>
+<?php } ?>
 
-<?php if (!$isAuthPage): ?>
-    <?php
-    $pageTitle  = 'My Profile';
-    $activePage = 'profile';
-    // Inline the navbar (header partial uses relative path from controllers/)
-    include __DIR__ . '/partials/header.php';
-    ?>
-<?php endif; ?>
-
-<!-- ══════════════════════════════════════════
-     LOGIN
-══════════════════════════════════════════ -->
 <?php if ($action === 'login'): ?>
 
 <div class="auth-wrapper">
     <div class="auth-box">
         <h2>🛒 Seller Login</h2>
-
-        <?php if (!empty($flashMsg)):   ?><div class="alert alert-success"><?php echo htmlspecialchars($flashMsg);   ?></div><?php endif; ?>
-        <?php if (!empty($flashError)): ?><div class="alert alert-danger"><?php  echo htmlspecialchars($flashError); ?></div><?php endif; ?>
+        <?php if ($flashMsg):   ?><div class="alert alert-success"><?php echo htmlspecialchars($flashMsg);   ?></div><?php endif; ?>
+        <?php if ($flashError): ?><div class="alert alert-danger"><?php  echo htmlspecialchars($flashError); ?></div><?php endif; ?>
 
         <form action="AuthController.php?action=login_save" method="post"
               onsubmit="return validateLogin(this)" novalidate>
@@ -65,17 +55,13 @@ $isAuthPage = in_array($action, ['login', 'register']);
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     REGISTER
-══════════════════════════════════════════ -->
 <?php elseif ($action === 'register'): ?>
 
 <div class="auth-wrapper">
     <div class="auth-box auth-wide">
         <h2>🛒 Create Seller Account</h2>
-
-        <?php if (!empty($flashMsg)):   ?><div class="alert alert-success"><?php echo htmlspecialchars($flashMsg);   ?></div><?php endif; ?>
-        <?php if (!empty($flashError)): ?><div class="alert alert-danger"><?php  echo htmlspecialchars($flashError); ?></div><?php endif; ?>
+        <?php if ($flashMsg):   ?><div class="alert alert-success"><?php echo htmlspecialchars($flashMsg);   ?></div><?php endif; ?>
+        <?php if ($flashError): ?><div class="alert alert-danger"><?php  echo htmlspecialchars($flashError); ?></div><?php endif; ?>
 
         <form action="AuthController.php?action=register_save" method="post"
               enctype="multipart/form-data" onsubmit="return validateRegister(this)" novalidate>
@@ -93,8 +79,8 @@ $isAuthPage = in_array($action, ['login', 'register']);
                 </div>
             </div>
             <div class="form-group">
-                <label for="email">Email Address *</label>
-                <input type="email" name="email" id="email">
+                <label for="reg_email">Email Address *</label>
+                <input type="email" name="email" id="reg_email">
                 <span class="err-msg" id="regEmailErr"></span>
             </div>
             <div class="form-row">
@@ -143,17 +129,14 @@ $isAuthPage = in_array($action, ['login', 'register']);
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PROFILE
-══════════════════════════════════════════ -->
 <?php elseif ($action === 'profile'): ?>
 
 <div class="page-header"><h1>My Profile</h1></div>
 
-<!-- Shop & Personal Info -->
 <div class="card">
     <h2>Shop &amp; Personal Information</h2>
-    <form action="AuthController.php?action=profile_save" method="post" enctype="multipart/form-data">
+    <form action="SellerDashboardController.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="update_profile">
         <div class="form-row">
             <div class="form-group">
                 <label>Full Name *</label>
@@ -198,11 +181,10 @@ $isAuthPage = in_array($action, ['login', 'register']);
     </form>
 </div>
 
-<!-- Change Password -->
 <div class="card">
     <h2>Change Password</h2>
-    <form action="AuthController.php?action=password_save" method="post"
-          onsubmit="return checkPassMatch()">
+    <form action="SellerDashboardController.php" method="post" onsubmit="return checkPassMatch()">
+        <input type="hidden" name="action" value="change_password">
         <div class="form-group">
             <label>Current Password</label>
             <input type="password" name="current_password" required>
@@ -222,11 +204,12 @@ $isAuthPage = in_array($action, ['login', 'register']);
     </form>
 </div>
 
-<?php endif; // end action switch ?>
+<?php endif; ?>
 
-<?php if (!$isAuthPage): require_once __DIR__ . '/partials/footer.php'; ?>
-<?php else: ?>
-<script src="../views/js/external.js"></script>
+<?php if ($isAuthPage): ?>
+<script src="../view/js/external.js"></script>
 </body>
 </html>
+<?php else: ?>
+<?php include __DIR__ . '/footer.php'; ?>
 <?php endif; ?>

@@ -1,23 +1,19 @@
 <?php
-// controllers/AuthController.php
-// Actions: GET (show login) | register | login | logout
 
 session_start();
-require_once '../models/Connect.php';
-require_once '../models/SellerModel.php';
-require_once '../models/Close.php';
+require_once '../model/Connect.php';
+require_once '../model/SellerModel.php';
+require_once '../model/Close.php';
 
-$action = $_POST['action'] ?? $_GET['action'] ?? '';
+$action = $_POST['action'] ?? $_GET['action'] ?? 'login';
 
-// ── LOGOUT ──────────────────────────────────────────────────
 if ($action === 'logout') {
     session_destroy();
     header('Location: AuthController.php');
     exit;
 }
 
-// ── REGISTER SUBMIT ─────────────────────────────────────────
-if ($action === 'register') {
+if ($action === 'register_save') {
     $name     = htmlspecialchars(trim($_POST['name']             ?? ''));
     $email    = htmlspecialchars(trim($_POST['email']            ?? ''));
     $phone    = htmlspecialchars(trim($_POST['phone']            ?? ''));
@@ -28,22 +24,22 @@ if ($action === 'register') {
 
     if (!$name || !$email || !$password || !$shopName || !$address) {
         $_SESSION['error'] = 'Please fill in all required fields.';
-        header('Location: AuthController.php?view=register'); exit;
+        header('Location: AuthController.php?action=register'); exit;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = 'Invalid email address.';
-        header('Location: AuthController.php?view=register'); exit;
+        header('Location: AuthController.php?action=register'); exit;
     }
     if (strlen($password) < 6) {
         $_SESSION['error'] = 'Password must be at least 6 characters.';
-        header('Location: AuthController.php?view=register'); exit;
+        header('Location: AuthController.php?action=register'); exit;
     }
 
     $conn = connect();
     if (emailExists($conn, $email)) {
         $_SESSION['error'] = 'Email already registered.';
         close($conn);
-        header('Location: AuthController.php?view=register'); exit;
+        header('Location: AuthController.php?action=register'); exit;
     }
 
     $logoPath = '';
@@ -56,7 +52,7 @@ if ($action === 'register') {
         }
     }
 
-    $userId = registerSellerUser($conn, $name, $email, password_hash($password, PASSWORD_BCRYPT), $phone);
+    $userId = registerSellerUser($conn, $name, $email, $password, $phone);
     registerSellerProfile($conn, $userId, $shopName, $shopDesc, $address, $logoPath);
     close($conn);
 
@@ -64,8 +60,7 @@ if ($action === 'register') {
     header('Location: AuthController.php'); exit;
 }
 
-// ── LOGIN SUBMIT ─────────────────────────────────────────────
-if ($action === 'login') {
+if ($action === 'login_save') {
     $email    = htmlspecialchars(trim($_POST['email']    ?? ''));
     $password = $_POST['password']                       ?? '';
 
@@ -78,7 +73,7 @@ if ($action === 'login') {
     $seller = getSellerByEmail($conn, $email);
     close($conn);
 
-    if (!$seller || !password_verify($password, $seller['password_hash'])) {
+    if (!$seller || $password !== $seller['password']) {
         $_SESSION['error'] = 'Invalid email or password.';
         header('Location: AuthController.php'); exit;
     }
@@ -96,9 +91,6 @@ if ($action === 'login') {
     $_SESSION['seller_name'] = $seller['name'];
     $_SESSION['role']        = 'seller';
 
-    header('Location: DashboardController.php'); exit;
+    header('Location: SellerDashboardController.php'); exit;
 }
-
-// ── SHOW FORM (default = login, ?view=register shows register) ──
-$view = $_GET['view'] ?? 'login';
-require_once '../views/auth.php';
+require_once '../view/auth.php';

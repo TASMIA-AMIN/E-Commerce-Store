@@ -1,15 +1,13 @@
 <?php
-// views/coupon.php
-$pageTitle  = 'Coupons';
-$activePage = 'coupons';
-require_once __DIR__ . '/partials/header.php';
 
-$coupons = $_SESSION['coupons'] ?? [];
+$coupons    = $coupons ?? [];
+$pageTitle  = 'Coupons';
+$activePage = 'coupon';
+include __DIR__ . '/header.php';
 ?>
 
 <div class="page-header"><h1>Promotional Coupons</h1></div>
 
-<!-- Create form -->
 <div class="card">
     <h2>Create New Coupon</h2>
     <form action="CouponController.php?action=save" method="post"
@@ -42,7 +40,6 @@ $coupons = $_SESSION['coupons'] ?? [];
     </form>
 </div>
 
-<!-- Coupon list -->
 <div class="card">
     <h2>My Coupons</h2>
     <?php if (empty($coupons)): ?>
@@ -91,4 +88,4 @@ $coupons = $_SESSION['coupons'] ?? [];
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

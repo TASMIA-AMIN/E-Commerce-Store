@@ -1,10 +1,7 @@
 <?php
-// views/partials/header.php
-// Variables expected before include:
-//   $pageTitle  (string) — page <title>
-//   $activePage (string) — 'dashboard','products','orders','coupons','returns','reviews','analytics','profile'
 
-if (session_status() === PHP_SESSION_NONE) session_start();
+if (session_status() === PHP_SESSION_NONE) 
+session_start();
 
 $flashMsg   = $_SESSION['msg']   ?? '';
 $flashError = $_SESSION['error'] ?? '';
@@ -25,21 +22,21 @@ function navClass($page) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo htmlspecialchars($pageTitle); ?> | E-Commerce Seller</title>
-    <link rel="stylesheet" href="../views/css/external.css">
+    <link rel="stylesheet" href="../view/css/external.css">
 </head>
 <body>
 
 <nav class="navbar">
     <div class="nav-brand">🛒 My Shop</div>
     <div class="nav-links">
-        <a href="DashboardController.php"<?php echo navClass('dashboard'); ?>>Dashboard</a>
-        <a href="ProductController.php?action=index"<?php echo navClass('products'); ?>>Products</a>
+        <a href="SellerDashboardController.php"<?php echo navClass('dashboard'); ?>>Dashboard</a>
+        <a href="ProductController.php"<?php echo navClass('products'); ?>>Products</a>
         <a href="OrderController.php?action=index"<?php echo navClass('orders'); ?>>Orders</a>
         <a href="CouponController.php?action=index"<?php echo navClass('coupons'); ?>>Coupons</a>
         <a href="ReturnController.php?action=index"<?php echo navClass('returns'); ?>>Returns</a>
         <a href="ReviewController.php?action=index"<?php echo navClass('reviews'); ?>>Reviews</a>
         <a href="AnalyticsController.php"<?php echo navClass('analytics'); ?>>Analytics</a>
-        <a href="AuthController.php?action=profile"<?php echo navClass('profile'); ?>>
+        <a href="SellerDashboardController.php?view=profile"<?php echo navClass('profile'); ?>>
             👤 <?php echo htmlspecialchars($_SESSION['seller_name'] ?? 'Profile'); ?>
         </a>
         <a href="AuthController.php?action=logout" class="nav-logout">Logout</a>

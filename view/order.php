@@ -1,25 +1,23 @@
 <?php
-// views/order.php
-// Rendered by OrderController for actions: index | detail
 
-$action = $action ?? 'index';
-$orders = $_SESSION['orders']       ?? [];
-$filter = $_SESSION['order_filter'] ?? '';
-$data   = $_SESSION['order_detail'] ?? [];
-$order  = $data['order']            ?? [];
-$items  = $data['items']            ?? [];
+$action       = $action       ?? 'index';
+$orders       = $orders       ?? [];
+$statusFilter = $statusFilter ?? '';
+$order        = $order        ?? [];
+$items        = $items        ?? [];
 
 $pageTitle  = $action === 'detail' ? 'Order #' . ($order['id'] ?? '') : 'Orders';
-$activePage = 'orders';
-require_once __DIR__ . '/partials/header.php';
+$activePage = 'order';
+include __DIR__ . '/header.php';
 
-$statuses = ['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'shipped' => 'Shipped', 'delivered' => 'Delivered'];
-$nextStatus = ['pending' => ['confirmed','Confirm Order'], 'confirmed' => ['shipped','Mark Shipped'], 'shipped' => ['delivered','Mark Delivered']];
+$statuses   = ['' => 'All', 'pending' => 'Pending', 'confirmed' => 'Confirmed', 'shipped' => 'Shipped', 'delivered' => 'Delivered'];
+$nextStatus = [
+    'pending'   => ['confirmed', 'Confirm Order'],
+    'confirmed' => ['shipped',   'Mark Shipped'],
+    'shipped'   => ['delivered', 'Mark Delivered'],
+];
 ?>
 
-<!-- ══════════════════════════════════════════
-     INDEX — Order list
-══════════════════════════════════════════ -->
 <?php if ($action === 'index'): ?>
 
 <div class="page-header"><h1>Incoming Orders</h1></div>
@@ -28,7 +26,7 @@ $nextStatus = ['pending' => ['confirmed','Confirm Order'], 'confirmed' => ['ship
     <label>Status:</label>
     <?php foreach ($statuses as $val => $label): ?>
         <a href="OrderController.php?action=index&status=<?php echo $val; ?>"
-           class="btn btn-sm <?php echo $filter === $val ? 'btn-primary' : 'btn-secondary'; ?>">
+           class="btn btn-sm <?php echo $statusFilter === $val ? 'btn-primary' : 'btn-secondary'; ?>">
             <?php echo $label; ?>
         </a>
     <?php endforeach; ?>
@@ -68,9 +66,6 @@ $nextStatus = ['pending' => ['confirmed','Confirm Order'], 'confirmed' => ['ship
     <?php endif; ?>
 </div>
 
-<!-- ══════════════════════════════════════════
-     DETAIL — Single order
-══════════════════════════════════════════ -->
 <?php elseif ($action === 'detail'): ?>
 
 <div class="page-header">
@@ -128,7 +123,7 @@ $nextStatus = ['pending' => ['confirmed','Confirm Order'], 'confirmed' => ['ship
                     <td><span class="badge badge-<?php echo $item['item_status']; ?>"><?php echo ucfirst($item['item_status']); ?></span></td>
                     <td>
                         <?php if (isset($nextStatus[$item['item_status']])): ?>
-                            <?php [$ns, $label] = $nextStatus[$item['item_status']]; ?>
+                            <?php list($ns, $label) = $nextStatus[$item['item_status']]; ?>
                             <form class="inline-form" action="OrderController.php?action=update_status" method="post">
                                 <input type="hidden" name="item_id"    value="<?php echo $item['id']; ?>">
                                 <input type="hidden" name="order_id"   value="<?php echo $order['id']; ?>">
@@ -147,4 +142,4 @@ $nextStatus = ['pending' => ['confirmed','Confirm Order'], 'confirmed' => ['ship
 
 <?php endif; ?>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

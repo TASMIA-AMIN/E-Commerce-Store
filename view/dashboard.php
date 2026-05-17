@@ -1,22 +1,90 @@
 
 <?php
-// views/dashboard.php
-$pageTitle  = 'Dashboard';
-$activePage = 'dashboard';
-require_once __DIR__ . '/partials/header.php';
 
-$lowStock     = $_SESSION['low_stock']     ?? [];
-$recentOrders = $_SESSION['recent_orders'] ?? [];
-$earnings     = $_SESSION['earnings']      ?? [];
-$topProducts  = $_SESSION['top_products']  ?? [];
+$pageTitle  = ($view ?? '') === 'profile' ? 'My Profile' : 'Dashboard';
+$activePage = ($view ?? '') === 'profile' ? 'profile'   : 'dashboard';
+include __DIR__ . '/header.php';
+
+if (($view ?? 'dashboard') === 'profile'):
 ?>
+
+<div class="page-header"><h1>My Profile</h1></div>
+
+<div class="card">
+    <h2>Shop &amp; Personal Information</h2>
+    <form action="SellerDashboardController.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="update_profile">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" name="name"
+                       value="<?php echo htmlspecialchars($profile['name'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" name="phone"
+                       value="<?php echo htmlspecialchars($profile['phone'] ?? ''); ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Shop Name *</label>
+            <input type="text" name="shop_name"
+                   value="<?php echo htmlspecialchars($profile['shop_name'] ?? ''); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Shop Description</label>
+            <textarea name="shop_description"><?php echo htmlspecialchars($profile['shop_description'] ?? ''); ?></textarea>
+        </div>
+        <div class="form-group">
+            <label>Address *</label>
+            <input type="text" name="address"
+                   value="<?php echo htmlspecialchars($profile['address'] ?? ''); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Shop Logo</label>
+            <?php if (!empty($profile['shop_logo_path'])): ?>
+                <br><img src="../<?php echo htmlspecialchars($profile['shop_logo_path']); ?>"
+                     style="height:72px;margin-bottom:8px;border-radius:5px;border:1px solid #ddd">
+            <?php endif; ?>
+            <br>
+            <input type="file" name="shop_logo" accept="image/*">
+            <small>Leave blank to keep current logo.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Change Password</h2>
+    <form action="SellerDashboardController.php" method="post" onsubmit="return checkPassMatch()">
+        <input type="hidden" name="action" value="change_password">
+        <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" name="current_password" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>New Password <small>(min 6 chars)</small></label>
+                <input type="password" name="new_password" id="newPass" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <input type="password" name="confirm_password" id="confirmPass" required>
+                <span class="err-msg" id="confirmPassErr"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning">Change Password</button>
+    </form>
+</div>
+
+<?php else: ?>
+
 
 <div class="page-header">
     <h1>Welcome back, <?php echo htmlspecialchars($_SESSION['seller_name'] ?? 'Seller'); ?>!</h1>
     <a href="AnalyticsController.php" class="btn btn-primary">View Analytics</a>
 </div>
 
-<!-- KPI Stats -->
 <div class="stats-grid">
     <div class="stat-card success">
         <div class="stat-value">৳<?php echo number_format($earnings['gross'] ?? 0, 2); ?></div>
@@ -27,16 +95,15 @@ $topProducts  = $_SESSION['top_products']  ?? [];
         <div class="stat-label">Net Payout (after <?php echo $earnings['commission_rate'] ?? 10; ?>% commission)</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value"><?php echo count($recentOrders); ?></div>
+        <div class="stat-value"><?php echo count($recentOrders ?? []); ?></div>
         <div class="stat-label">Total Orders</div>
     </div>
-    <div class="stat-card <?php echo count($lowStock) > 0 ? 'danger' : 'success'; ?>">
-        <div class="stat-value"><?php echo count($lowStock); ?></div>
+    <div class="stat-card <?php echo count($lowStock ?? []) > 0 ? 'danger' : 'success'; ?>">
+        <div class="stat-value"><?php echo count($lowStock ?? []); ?></div>
         <div class="stat-label">Low Stock Alerts</div>
     </div>
 </div>
 
-<!-- Low Stock Alert -->
 <?php if (!empty($lowStock)): ?>
 <div class="card">
     <h2>⚠️ Low Stock Alerts</h2>
@@ -60,7 +127,6 @@ $topProducts  = $_SESSION['top_products']  ?? [];
 </div>
 <?php endif; ?>
 
-<!-- Top Products -->
 <?php if (!empty($topProducts)): ?>
 <div class="card">
     <h2>🏆 Top Selling Products (30 days)</h2>
@@ -82,7 +148,6 @@ $topProducts  = $_SESSION['top_products']  ?? [];
 </div>
 <?php endif; ?>
 
-<!-- Recent Orders -->
 <div class="card">
     <h2>📦 Recent Orders</h2>
     <?php if (empty($recentOrders)): ?>
@@ -115,4 +180,6 @@ $topProducts  = $_SESSION['top_products']  ?? [];
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php endif; ?>
+
+<?php include __DIR__ . '/footer.php'; ?>

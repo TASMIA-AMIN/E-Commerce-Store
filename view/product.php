@@ -1,24 +1,18 @@
 <?php
-// views/product.php
-// Rendered by ProductController for actions: index | create | edit
-// $action is set by the controller
 
-$action     = $action     ?? 'index';
-$products   = $_SESSION['products']      ?? [];
-$lowStock   = $_SESSION['low_stock']     ?? [];
-$categories = $_SESSION['categories']    ?? [];
-$product    = $_SESSION['edit_product']  ?? [];
-$images     = $_SESSION['product_images'] ?? [];
+$action     = $action     ?? 'list';
+$products   = $products   ?? [];
+$lowStock   = $lowStock   ?? [];
+$categories = $categories ?? [];
+$product    = $product    ?? [];
+$images     = $images     ?? [];
 
 $pageTitle  = $action === 'create' ? 'Add Product' : ($action === 'edit' ? 'Edit Product' : 'My Products');
-$activePage = 'products';
-require_once __DIR__ . '/partials/header.php';
+$activePage = 'product';
+include __DIR__ . '/header.php';
 ?>
 
-<!-- ══════════════════════════════════════════
-     INDEX — Product list
-══════════════════════════════════════════ -->
-<?php if ($action === 'index'): ?>
+<?php if ($action === 'list'): ?>
 
 <div class="page-header">
     <h1>My Products</h1>
@@ -28,7 +22,6 @@ require_once __DIR__ . '/partials/header.php';
     </div>
 </div>
 
-<!-- AJAX Low Stock Panel -->
 <div id="lowStockPanel">
 <?php if (!empty($lowStock)): ?>
     <div class="alert alert-warning">
@@ -95,14 +88,11 @@ require_once __DIR__ . '/partials/header.php';
     </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     CREATE — Add product form
-══════════════════════════════════════════ -->
 <?php elseif ($action === 'create'): ?>
 
 <div class="page-header">
     <h1>Add New Product</h1>
-    <a href="ProductController.php?action=index" class="btn btn-secondary">← Back</a>
+    <a href="ProductController.php" class="btn btn-secondary">← Back</a>
 </div>
 
 <div class="card">
@@ -160,19 +150,18 @@ require_once __DIR__ . '/partials/header.php';
         </div>
         <div style="display:flex;gap:10px">
             <button type="submit" class="btn btn-primary">Create Product</button>
-            <a href="ProductController.php?action=index" class="btn btn-secondary">Cancel</a>
+            <a href="ProductController.php" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
 
-<!-- ══════════════════════════════════════════
-     EDIT — Edit product form
-══════════════════════════════════════════ -->
 <?php elseif ($action === 'edit'): ?>
-
+<!-- ══════════════════════════════════════════
+     EDIT
+══════════════════════════════════════════ -->
 <div class="page-header">
     <h1>Edit: <?php echo htmlspecialchars($product['name'] ?? ''); ?></h1>
-    <a href="ProductController.php?action=index" class="btn btn-secondary">← Back</a>
+    <a href="ProductController.php" class="btn btn-secondary">← Back</a>
 </div>
 
 <div class="card">
@@ -183,13 +172,13 @@ require_once __DIR__ . '/partials/header.php';
         <div class="form-row">
             <div class="form-group">
                 <label>Product Name *</label>
-                <input type="text" name="name" id="name"
+                <input type="text" name="name"
                        value="<?php echo htmlspecialchars($product['name'] ?? ''); ?>" required>
                 <span class="err-msg" id="pNameErr"></span>
             </div>
             <div class="form-group">
                 <label>Category *</label>
-                <select name="category_id" id="category_id" required>
+                <select name="category_id" required>
                     <option value="">-- Select Category --</option>
                     <?php foreach ($categories as $c): ?>
                         <option value="<?php echo $c['id']; ?>"
@@ -224,12 +213,8 @@ require_once __DIR__ . '/partials/header.php';
         <div class="form-group">
             <label>Primary Image</label>
             <?php if (!empty($product['primary_image_path'])): ?>
-                <br><img id="primaryImagePreview"
-                     src="../<?php echo htmlspecialchars($product['primary_image_path']); ?>"
+                <br><img src="../<?php echo htmlspecialchars($product['primary_image_path']); ?>"
                      style="height:90px;margin-bottom:8px;border-radius:5px;border:1px solid #ddd">
-            <?php else: ?>
-                <img id="primaryImagePreview" src="#" alt=""
-                     style="display:none;height:90px;margin-bottom:8px;border-radius:5px;border:1px solid #ddd">
             <?php endif; ?>
             <br><input type="file" name="primary_image" id="primaryImageInput" accept="image/*">
             <small>Leave blank to keep current image.</small>
@@ -246,11 +231,11 @@ require_once __DIR__ . '/partials/header.php';
         <?php endif; ?>
         <div style="display:flex;gap:10px">
             <button type="submit" class="btn btn-primary">Update Product</button>
-            <a href="ProductController.php?action=index" class="btn btn-secondary">Cancel</a>
+            <a href="ProductController.php" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
 
-<?php endif; // end $action switch ?>
+<?php endif; ?>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>

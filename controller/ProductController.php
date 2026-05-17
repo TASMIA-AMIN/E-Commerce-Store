@@ -1,16 +1,13 @@
 <?php
-// controllers/ProductController.php
-// Actions: (none)=list | create | save | edit | update | toggle | delete | low_stock_ajax
 
 require_once 'auth_guard.php';
-require_once '../models/Connect.php';
-require_once '../models/SellerModel.php';
-require_once '../models/Close.php';
+require_once '../model/Connect.php';
+require_once '../model/SellerModel.php';
+require_once '../model/Close.php';
 
-$action    = $_POST['action'] ?? $_GET['action'] ?? '';
-$sellerId  = $_SESSION['seller_id'];
+$action   = $_POST['action'] ?? $_GET['action'] ?? '';
+$sellerId = $_SESSION['seller_id'];
 
-// ── SAVE (create new) ────────────────────────────────────────
 if ($action === 'save') {
     $name        = htmlspecialchars(trim($_POST['name']        ?? ''));
     $description = htmlspecialchars(trim($_POST['description'] ?? ''));
@@ -55,7 +52,6 @@ if ($action === 'save') {
     header('Location: ProductController.php'); exit;
 }
 
-// ── UPDATE (edit existing) ───────────────────────────────────
 if ($action === 'update') {
     $productId   = (int)($_POST['product_id'] ?? 0);
     $name        = htmlspecialchars(trim($_POST['name']        ?? ''));
@@ -119,7 +115,6 @@ if ($action === 'delete') {
     header('Location: ProductController.php'); exit;
 }
 
-// ── AJAX: low stock JSON ─────────────────────────────────────
 if ($action === 'low_stock_ajax') {
     $threshold = (int)($_GET['threshold'] ?? 5);
     $conn      = connect();
@@ -130,27 +125,21 @@ if ($action === 'low_stock_ajax') {
     exit;
 }
 
-// ── LOAD DATA & SHOW VIEW ────────────────────────────────────
 $conn = connect();
 
 if ($action === 'create') {
-    $data = ['categories' => getAllCategories($conn)];
+    $categories = getAllCategories($conn);
 } elseif ($action === 'edit') {
     $id      = (int)($_GET['id'] ?? 0);
     $product = getProductById($conn, $id, $sellerId);
     if (!$product) { close($conn); header('Location: ProductController.php'); exit; }
-    $data = [
-        'product'    => $product,
-        'images'     => getProductImages($conn, $id),
-        'categories' => getAllCategories($conn),
-    ];
+    $categories = getAllCategories($conn);
+    $images     = getProductImages($conn, $id);
 } else {
-    $data = [
-        'products'  => getProductsBySeller($conn, $sellerId),
-        'low_stock' => getLowStockProducts($conn, $sellerId, 5),
-    ];
-    $action = 'list';
+    $products  = getProductsBySeller($conn, $sellerId);
+    $lowStock  = getLowStockProducts($conn, $sellerId, 5);
+    $action    = 'list';
 }
 
 close($conn);
-require_once '../views/product.php';
+require_once '../view/product.php';

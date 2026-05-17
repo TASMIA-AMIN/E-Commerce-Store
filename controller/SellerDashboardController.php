@@ -1,15 +1,12 @@
 <?php
-// controllers/DashboardController.php
-// Also handles Profile update and Password change via action param
 
 require_once 'auth_guard.php';
-require_once '../models/Connect.php';
-require_once '../models/SellerModel.php';
-require_once '../models/Close.php';
+require_once '../model/Connect.php';
+require_once '../model/SellerModel.php';
+require_once '../model/Close.php';
 
 $action = $_POST['action'] ?? '';
 
-// ── UPDATE PROFILE ───────────────────────────────────────────
 if ($action === 'update_profile') {
     $name     = htmlspecialchars(trim($_POST['name']             ?? ''));
     $phone    = htmlspecialchars(trim($_POST['phone']            ?? ''));
@@ -19,7 +16,7 @@ if ($action === 'update_profile') {
 
     if (!$name || !$shopName || !$address) {
         $_SESSION['error'] = 'Name, Shop Name, and Address are required.';
-        header('Location: DashboardController.php?view=profile'); exit;
+        header('Location: SellerDashboardController.php?view=profile'); exit;
     }
 
     $conn    = connect();
@@ -40,58 +37,54 @@ if ($action === 'update_profile') {
 
     $_SESSION['seller_name'] = $name;
     $_SESSION['msg']         = 'Profile updated successfully.';
-    header('Location: DashboardController.php?view=profile'); exit;
+    header('Location: SellerDashboardController.php?view=profile'); exit;
 }
 
-// ── CHANGE PASSWORD ──────────────────────────────────────────
 if ($action === 'change_password') {
-    $current = $_POST['current_password']  ?? '';
-    $new     = $_POST['new_password']      ?? '';
-    $confirm = $_POST['confirm_password']  ?? '';
+    $current = $_POST['current_password'] ?? '';
+    $new     = $_POST['new_password']     ?? '';
+    $confirm = $_POST['confirm_password'] ?? '';
 
     if (!$current || !$new || !$confirm) {
         $_SESSION['error'] = 'All password fields are required.';
-        header('Location: DashboardController.php?view=profile'); exit;
+        header('Location: SellerDashboardController.php?view=profile'); exit;
     }
     if ($new !== $confirm) {
         $_SESSION['error'] = 'New passwords do not match.';
-        header('Location: DashboardController.php?view=profile'); exit;
+        header('Location: SellerDashboardController.php?view=profile'); exit;
     }
     if (strlen($new) < 6) {
         $_SESSION['error'] = 'New password must be at least 6 characters.';
-        header('Location: DashboardController.php?view=profile'); exit;
+        header('Location: SellerDashboardController.php?view=profile'); exit;
     }
 
     $conn    = connect();
     $profile = getSellerProfile($conn, $_SESSION['seller_id']);
 
-    if (!password_verify($current, $profile['password_hash'])) {
+    if ($current !== $profile['password']) {
         $_SESSION['error'] = 'Current password is incorrect.';
         close($conn);
-        header('Location: DashboardController.php?view=profile'); exit;
+        header('Location: SellerDashboardController.php?view=profile'); exit;
     }
 
-    changeSellerPassword($conn, $_SESSION['user_id'], password_hash($new, PASSWORD_BCRYPT));
+    changeSellerPassword($conn, $_SESSION['user_id'], $new);
     close($conn);
 
     $_SESSION['msg'] = 'Password changed successfully.';
-    header('Location: DashboardController.php?view=profile'); exit;
+    header('Location: SellerDashboardController.php?view=profile'); exit;
 }
 
-// ── LOAD DATA & SHOW VIEW ────────────────────────────────────
 $view = $_GET['view'] ?? 'dashboard';
 $conn = connect();
 
 if ($view === 'profile') {
-    $data = getSellerProfile($conn, $_SESSION['seller_id']);
+    $profile = getSellerProfile($conn, $_SESSION['seller_id']);
 } else {
-    $data = [
-        'low_stock'     => getLowStockProducts($conn, $_SESSION['seller_id'], 5),
-        'recent_orders' => getOrdersBySeller($conn, $_SESSION['seller_id'], ''),
-        'earnings'      => getEarningsSummary($conn, $_SESSION['seller_id'], 'month'),
-        'top_products'  => getTopSellingProducts($conn, $_SESSION['seller_id'], 5),
-    ];
+    $lowStock     = getLowStockProducts($conn, $_SESSION['seller_id'], 5);
+    $recentOrders = getOrdersBySeller($conn, $_SESSION['seller_id'], '');
+    $earnings     = getEarningsSummary($conn, $_SESSION['seller_id'], 'month');
+    $topProducts  = getTopSellingProducts($conn, $_SESSION['seller_id'], 5);
 }
 
 close($conn);
-require_once '../views/dashboard.php';
+require_once '../view/dashboard.php';

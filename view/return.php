@@ -1,10 +1,9 @@
 <?php
-// views/return.php
-$pageTitle  = 'Return Requests';
-$activePage = 'returns';
-require_once __DIR__ . '/partials/header.php';
 
-$requests = $_SESSION['return_requests'] ?? [];
+$requests   = $requests ?? [];
+$pageTitle  = 'Return Requests';
+$activePage = 'return';
+include __DIR__ . '/header.php';
 ?>
 
 <div class="page-header"><h1>Return Requests</h1></div>
@@ -61,4 +60,4 @@ $requests = $_SESSION['return_requests'] ?? [];
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/footer.php'; ?>
