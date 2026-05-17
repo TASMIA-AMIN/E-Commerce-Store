@@ -1,52 +1,62 @@
 <?php
 session_start();
-$products = 
-[
-	[
-		"id" => 1,
-		"name" => "Smartphone",
-		"price" => 15000,
-		"description" => "Latest android phone"
-	],
-	[ 
-	    "id" => 2,
-		"name" => "Laptop",
-		"price" => 50000,
-		"description" => "High performance laptop"
-    ],
-    [
-    	"id" => 3,
-		"name" => "Headphones",
-		"price" => 2000,
-		"description" => "Wireless headphone"
-    ]
 
-];
+if(!isset($_SESSION['user_name']))
+{
+	header("Location: clogin.php");
+	exit();
+}
+ if(!empty($_SESSION['products']))
+ {
+ 	$products = $_SESSION['products'];
+ }
+ else
+ {
+ 	$products = array();
+ }
+
+ unset($_SESSION['products']);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Products</title>
+	<title>Browse Products</title>
 </head>
 <body>
 	<h2>Products</h2>
+	<p> Welcome <?php echo $_SESSION['user_name']; ?> !</p>
+
 	<ul>
-		<li><a href="dashboard.php">Dashboard</a></li>
-		<li><a href="cart.php">Cart</a></li>
+		<li><a href="cdashboard.php">Dashboard</a></li>
+		<li><a href="../controllers/ccartController.php?action=view">Cart</a></li>
 		<li><a href="wishlist.php">Wishlist</a></li>
 		<li><a href="orders.php">Orders</a></li>
-		<li><a href="logout.php">Logout</a></li>
+		<li><a href="clogout.php">Logout</a></li>
 	</ul>
-	<hr>
-	<?php foreach ($products as $p) { ?>
-		<div>
-			<h3><?php echo $p['name'];?></h3>
-			<p><?php echo $p['description'];?></p>
-			<p><b>Price</b><?php echo $p['price'];?>BDT</p>
-			<a href="cart.php"> Add to cart </a>
-		<hr>
-	</div>
-	<?php } ?>
+
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Stock</th>
+			<th>Action</th>
+		</tr>
+	
+	<?php foreach($products as $p): ?>
+		<tr>
+		<td><?php echo $p['id']; ?></td>
+		<td><?php echo $p['name']; ?></td>
+		<td><?php echo $p['price']; ?></td>
+		<td><?php echo $p['stock_qty']; ?></td>
+		<td>
+			<a href="../controllers/ccartController.php?action=add&id=<?php echo $p['id']; ?>&name=<?php echo $p['name']; ?>&price=<?php echo $p['price']; ?>">
+				Add to Cart
+			</a>
+		</td>
+	</tr>
+		<?php endforeach; ?>	
+	</table>
 </body>
 </html>
