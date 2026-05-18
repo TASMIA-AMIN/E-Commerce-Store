@@ -1,5 +1,5 @@
 <div id="sidebar">
-<li><a href="../controller/DeliveryManagerManageAccount.php">Manage Account</a></li>
+<li><a href="../controller/DeliveryManagerDashboardController.php">Dashboard</a></li>
 <li>
     Delivery Agents Menu
     <ul>
@@ -14,6 +14,7 @@
 	<ul>
 		<li><a href="../controller/DeliveryManagerActiveDeliveryController.php">Active Deliveries</a></li>
 		<li><a href="../controller/DeliveryManagerDeliveryHistoryController.php">Delivery History</a></li>
+		<li><a href="../controller/DeliveryManagerDeliverySummaryController.php">Delivery Summary</a></li>
 	</ul>
 </li>
 <li>
