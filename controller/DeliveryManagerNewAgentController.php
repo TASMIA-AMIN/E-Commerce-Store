@@ -19,20 +19,18 @@
 		
 
 		if($agentName == ""){
-			echo "hello1";
-			$agentNameErr = "Please Fill Up the Phone Number Field!!!";
+			$agentNameErr = "Please Fill Up the Name Field!!!";
 			$hasError = true;
 		}
 		else if(strlen($agentName) < 4){
-			echo "hello2";
-			$agentNameErr = "Name must have minimum 6 characters!!!";
+			$agentNameErr = "Name must have minimum 4 characters!!!";
 			$hasError = true;
 		}
 		else{
 			$agentNameErr = "";
 		}
 		if($agentPhone == ""){
-			$agentPhoneErr = "Please Fill Up the Password Field!!!";
+			$agentPhoneErr = "Please Fill Up the Phone Number Field!!!";
 			$hasError = true;
 		}
 		else if(!preg_match("/^01[0-9]{9}$/", $agentPhone)){

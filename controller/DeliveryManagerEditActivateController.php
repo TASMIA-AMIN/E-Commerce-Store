@@ -27,6 +27,18 @@
 	        echo json_encode(["status" => "error", "message" => "Phone Number Already Exists!"]);
 	        Close($conn);
 	    }
+	    else if(empty($name)){
+	        echo json_encode(["status" => "error","message" => "Agent name cannot be empty!"]);
+	        Close($conn);
+	    }
+	    else if(empty($phone)){
+	        echo json_encode(["status" => "error","message" => "Phone number cannot be empty!"]);
+	        Close($conn);
+	    }
+	    else if(!ctype_digit($phone)){
+	        echo json_encode(["status" => "error","message" => "Phone number must contain only digits!"]);
+	        Close($conn);
+	    }
 	    else{
 	        updateAgent($conn, $id, $name, $phone, $vehicle);
 

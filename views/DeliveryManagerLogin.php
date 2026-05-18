@@ -56,7 +56,7 @@
 	#
 	?></div>
 
-	<script src=" ../asset/js/checkLogin.js"></script>
+	<script src=" ../asset/js/DeliveryManagerCheckLogin.js"></script>
 
 </body>
 	

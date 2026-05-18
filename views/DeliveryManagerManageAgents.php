@@ -15,6 +15,9 @@
 <body>
 
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<div id="messageBox" style="display:none; padding:10px; margin-bottom:10px;"></div>
+
 	
 	<h1>Manage Agents</h1>
 	<p>Register new agents and update information for preregistered agents</p>

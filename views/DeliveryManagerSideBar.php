@@ -23,7 +23,7 @@
 <li>
 	Zones Menu
 	<ul>
-		<li><a href="../views/DeliveryManagerManageZones.php">Manage Zones</a></li>
+		<li><a href="../controller/DeliveryManagerManageZoneController.php">Manage Zones</a></li>
 		<li><a href="../views/DeliveryManagerZonePerfReport.php">Zone Performance Report</a></li>
 	</ul>
 </li>

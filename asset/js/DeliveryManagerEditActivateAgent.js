@@ -1,4 +1,33 @@
+function showMessage(type, message){
+
+    const box = document.getElementById("messageBox");
+
+    box.style.display = "flex";            
+    box.style.position = "fixed";
+    box.style.top = "0";
+    box.style.left = "0";
+    box.style.width = "100%";
+    box.style.height = "100%";
+    box.style.background = "rgba(0,0,0,0.3)";
+    box.style.justifyContent = "center";
+    box.style.alignItems = "center";
+
+    box.innerHTML = `
+        <div style="
+            background:white;
+            padding:20px;
+            border:1px solid black;
+            border-radius:8px;
+            min-width:200px;
+            text-align:center;
+        ">
+            ${message}
+        </div>
+    `;
+}
+
 function agentStatusChange(id, button){
+	
 	const xhr = new XMLHttpRequest();
 	xhr.onload = function(){
 		let status = this.responseText;
@@ -28,16 +57,24 @@ function updateAgent(id){
 	xhr.onload = function(){
 		const result = JSON.parse(this.responseText);
 		if(result.status == "success"){
-			alert(result.message);
-			window.location.href = "../controller/DeliveryManagerManageAgentController.php";
+			showMessage(result.status, result.message);
+			setTimeout(function(){
+		        window.location.href = "../controller/DeliveryManagerManageAgentController.php";
+		    }, 2000);
 			//loadAgents();
 		}
 		else if(result.status == "error"){
-			alert(result.message);
+			showMessage(result.status, result.message);
+			setTimeout(function(){
+		        document.getElementById("messageBox").style.display = "none";
+		    }, 2000);
 
 		}
 		else{
-			alert(this.responseText);
+			showMessage("error",this.responseText);
+			setTimeout(function(){
+		        document.getElementById("messageBox").style.display = "none";
+		    }, 2000);
 		}
 	};
 
@@ -55,33 +92,3 @@ function hideEdit(id){
 	document.getElementById("editRow" + id).style.display = "none";
 }
 
-function loadAgents(){
-
-	const xhr = new XMLHttpRequest();
-	xhr.onload = function(){
-		let agents = JSON.parse(this.responseText);
-		let rows = "";
-		for(let i=0; i<agents.length; i++){
-			rows+=`
-				<tr>
-					<td>${agents[i].id}</td>
-					<td>${agents[i].user_id}</td>
-					<td>${agents[i].name}</td>
-					<td>${agents[i].phone}</td>
-					<td>${agents[i].vehicle_type}</td>
-					<td>
-                        <button type="button" onclick="agentEdit(${agents[i].id})"> Edit </button>
-                    </td>
-                    <td>
-                        <button type="button" onclick="agentStatusChange(${agents[i].id}, this)"> ${agents[i].is_active == 1 ? "Deactivate" : "Activate"} </button>
-                    </td>
-				</tr>
-			`;
-		}
-		document.getElementById("agentTable").innerHTML = rows;
-	};
-
-    xhr.open("GET", "../controller/DeliveryManagerLoadAgentsController.php", true);
-
-    xhr.send();
-}

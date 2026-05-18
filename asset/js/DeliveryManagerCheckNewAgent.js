@@ -11,8 +11,8 @@ function checkNewAgent(form){
 		document.getElementById('aNameErr').innerHTML = "Please fill up the name!!!";
 		flag = false;
 	}
-	if(agentName.length < 4){
-		document.getElementById('aNameErr').innerHTML = "Name must be greater than 6 characters!!!";
+	else if(agentName.length < 4){
+		document.getElementById('aNameErr').innerHTML = "Name must be greater than 4 characters!!!";
 		flag = false;
 	}
 

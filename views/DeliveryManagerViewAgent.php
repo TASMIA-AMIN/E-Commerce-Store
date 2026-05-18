@@ -28,6 +28,7 @@
 				<th>Name</th>
 				<th>Phone</th>
 				<th>Vehicle Type</th>
+				<th>Created At</th>
 				<th>Active Delivery</th>
 			</tr>
 			</thead>
@@ -39,6 +40,7 @@
 					<td><?php echo $agent['agent_name'] ?></td>
 					<td><?php echo $agent['phone'] ?></td>
 					<td><?php echo $agent['vehicle_type'] ?></td>
+					<td><?php echo $agent['created_at'] ?></td>
 					<td><?php echo $agent['active_deliveries'] ?></td>
 					<td></td>
 				</tr>
