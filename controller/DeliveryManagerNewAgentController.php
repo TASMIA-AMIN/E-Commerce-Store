@@ -54,6 +54,7 @@
 			}
 			else{
 				addAgent($conn, $_SESSION['userid'], $agentName, $agentPhone, $agentVehicle);
+				header('Location: ../controller/DeliveryManagerManageAgentController.php');
 
 			}
 			
