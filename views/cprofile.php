@@ -50,5 +50,3 @@
 	<a href="../views/cdashboard.php"> Back to Dashboard </a>
 </body>
 </html>
-
-

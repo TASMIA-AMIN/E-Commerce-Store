@@ -16,7 +16,7 @@ function updateProfile($conn, $user_id, $name, $email, $phone, $profile_pic)
 function updatePassword($conn, $user_id, $new_password)
 {
 	$sql = "UPDATE users SET password_hash='$new_password' WHERE id='$user_id'";
-	$result = mysqli_query($conn, $sql);
+	mysqli_query($conn, $sql);
 }
 
 ?>

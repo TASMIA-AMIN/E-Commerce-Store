@@ -1,35 +1,115 @@
 <?php
-
 session_start();
-
-if(!isset($_SESSION['user_id']))
-{
-	header("Location: ../views/clogin.php");
-	exit();
-}
-
-if($_SESSION['role'] != 'customer')
-{
-	header("Location: ../views/clogin.php");
-    exit();
-}
 
 require_once "../config/connect.php";
 require_once "../models/cproductModel.php";
 
 $conn = connect();
-if($conn)
+
+$action = $_GET['action'] ?? '';
+
+/* DETAILS */
+if($action == "details")
 {
-	$products = getAllProducts($conn);
+	$product_id = $_GET['id'];
+
+	$sql = "SELECT * FROM products WHERE id='$product_id'";
+	$result = mysqli_query($conn, $sql);
+
+	if(!$result)
+	{
+		die("Query error");
+	}
+
+	$product = mysqli_fetch_assoc($result);
+
+	if(!$product)
+	{
+		die("Product not found");
+	}
+
+	require "../views/cproductDetail.php";
+	exit();
 }
-else
+
+/* LIST */
+$sql = "SELECT * FROM products";
+$result = mysqli_query($conn, $sql);
+
+$products = [];
+
+while($row = mysqli_fetch_assoc($result))
 {
-	$products = [];
+	$products[] = $row;
 }
-mysqli_close($conn);
 
+$keyword = '';
+if(isset($_GET['keyword']))
+{
+	$keyword = $_GET['keyword'];
+}
 
+$category_id = 0;
+if(isset($_GET['category_id']))
+{
+	$category_id = $_GET['category_id'];
+}
 
+$min_price = 0;
+if(isset($_GET['min_price']))
+{
+	$min_price = $_GET['min_price'];
+}
+
+$max_price = 0;
+if(isset($_GET['max_price']))
+{
+	$max_price = $_GET['max_price'];
+}
+
+$availability = 0;
+if(isset($_GET['availability']))
+{
+	$availability = $_GET['availability'];
+}
+
+$sql = "SELECT * FROM products WHERE 1=1";
+
+if($keyword != '')
+{
+	$sql .= " AND name LIKE '%$keyword%'";
+}
+
+if($category_id > 0)
+{
+	$sql .= " AND category_id='$category_id'";
+}
+
+if($min_price > 0)
+{
+	$sql .= " AND price >= '$min_price'";
+}
+
+if($max_price > 0)
+{
+	$sql .= " AND price <= '$max_price'";
+}
+
+if($availability == 1)
+{
+	$sql .= " AND stock_qty > 0";
+}
+
+$result = mysqli_query($conn, $sql);
+
+$products = array();
+
+while($row = mysqli_fetch_assoc($result))
+{
+	$products[] = $row;
+}
+
+$categories = getMainCategories($conn);
+$subcategories = getSubCategories($conn);
 require "../views/cproducts.php";
-
 ?>

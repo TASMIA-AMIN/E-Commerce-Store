@@ -40,21 +40,26 @@ if($action == "add")
  }
 
  if($action == "remove")
- {
- 	$customer_id = $_SESSION['user_id'];
- 	if(isset($_GET['id']))
- 	{
- 		$wishlist_id = $_GET['id'];
- 	}
- 	else
- 	{
- 		$wishlist_id = 0;
- 	}
+{
+	if(isset($_GET['id']))
+	{
+		$wishlist_id = $_GET['id'];
+	}
+	else
+	{
+		$wishlist_id = 0;
+	}
 
- 	removeWishlist($conn, $wishlist_id, $customer_id);
- 	header("Location:../controllers/cwishlistController.php?action=view");
- 	exit();
- }
+	$customer_id = $_SESSION['user_id'];
+
+	if($wishlist_id > 0)
+	{
+		removeWishlist($conn, $wishlist_id, $customer_id);
+	}
+
+	header("Location: ../controllers/cwishlistController.php?action=view");
+	exit();
+}
 
  mysqli_close($conn);
 

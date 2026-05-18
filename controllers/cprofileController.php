@@ -52,13 +52,16 @@ if(isset($_GET['action']))
  }
 
  if($action == "password")
- {
- 	$user_id = $_SESSION['user_id'];
- 	$new_password = $_POST['new_password'];
- 	updatePassword($conn, $user_id, $new_password);
- 	header("Location:../controllers/cprofileController.php?action=view");
- 	exit();
- }
+{
+	$user_id = $_SESSION['user_id'];
+
+	$new_password = $_POST['new_password'];
+
+	updatePassword($conn, $user_id, $new_password);
+
+	header("Location:../controllers/cprofileController.php?action=view");
+	exit();
+}
 
  mysqli_close($conn);
 

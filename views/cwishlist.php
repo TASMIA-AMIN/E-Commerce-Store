@@ -19,7 +19,9 @@
 					<td><?php echo $w['id'];?></td>
 					<td><?php echo $w['name'];?></td>
 					<td><?php echo $w['price'];?></td>
-					<td><a href="../controllers/cwishlistController.php?action=remove&id=<?php echo $w['wishlist_id']; ?>">Remove</a></td>
+					<td><a href="../controllers/cwishlistController.php?action=remove&id=<?php echo $w['wishlist_id']; ?>">
+	Remove
+</a></td>
 				</tr>
 
 			<?php endforeach; ?>

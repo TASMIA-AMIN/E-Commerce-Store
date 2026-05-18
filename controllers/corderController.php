@@ -131,5 +131,18 @@ if($action == "checkout")
 	exit();
 }
 
+if($action == "status")
+{
+	$order_id = $_GET['order_id'];
+
+	$sql = "SELECT status FROM orders WHERE id='$order_id'";
+	$result = mysqli_query($conn, $sql);
+
+	$data = mysqli_fetch_assoc($result);
+
+	echo $data['status'];
+	exit();
+}
+
 mysqli_close($conn);
 ?>
