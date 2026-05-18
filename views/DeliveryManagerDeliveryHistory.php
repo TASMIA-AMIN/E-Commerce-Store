@@ -11,16 +11,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Delivery History</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 	
 	<h1>Delivery History</h1>
 	<p>All completed and failed deliveries</p>
 	
 	<?php if(count($deliveries)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th> Assignment ID</th>
@@ -55,9 +59,11 @@
 				</tr>
 			<?php } ?>
 		</tbody>
+	</table>
 	<?php }
 	else{ ?>
 		<div><?php echo "Currently No Delivery is Completed!"; ?></div>
 	<?php } ?>
+</mainBody>
 </body>
 </html>

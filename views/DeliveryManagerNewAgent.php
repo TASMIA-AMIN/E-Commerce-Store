@@ -10,10 +10,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Register New Agent</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 
 	<h1>Register New Agent</h1>
 
@@ -81,6 +85,7 @@
 	<div id="dupMsg">
 		<?php echo isset($dupMsg) ? $dupMsg : ""; ?>		
 	</div>
+</mainBody>
 
 	<script src="../asset/js/DeliveryManagerCheckNewAgent.js"></script>
 

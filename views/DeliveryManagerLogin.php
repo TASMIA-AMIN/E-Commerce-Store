@@ -14,11 +14,56 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Delivery Manager Login Page</title>
+	<style>
+        body{
+            font-family: Arial;
+            text-align: center;
+            background-color: #250a57;
+        }
+        #login{
+		    width: 800px;
+    		height: 500px;
+		    margin: 100px auto; 
+		    text-align: center;
+
+		    background-color:white;     
+    		border-radius: 12px;         
+
+		}
+		header{
+			background-color: white;
+		}
+
+        input{
+            font-size: 16px;
+            padding: 8px;
+            width: 200px;
+        }
+
+        input[type="submit"]{
+            padding: 8px 15px;
+            background-color: #250a57;
+            color: white;
+            border: none;
+        }
+        input[type="submit"]:hover{
+		    background-color: #d46211;
+		    color: black;
+		}
+		form{
+		    width: 250px;
+		    margin: 100px auto;  /* centers horizontally */
+		    text-align: center;  /* inside form content */
+		}
+    </style>
 </head>
 <body>
-	<form method="post" action= "../controller/DeliveryManagerLoginController.php" onsubmit="return checkLoginFields(this)">
+	<?php include '../views/DeliveryManagerHeader.php' ?>
+	<div id="login">
 		<h1>Deliver Manager Login</h1>
-		<table>
+	<form method="post" action= "../controller/DeliveryManagerLoginController.php" onsubmit="return checkLoginFields(this)">
+		
+		<table id="data">
 			<tr>
 				<td>
 					<label for="userPhone" >Phone Number: </label>
@@ -45,7 +90,7 @@
 				<td>
 					<span id="userPassErr"><?php echo isset($userPassErr) ? $userPassErr : ""; ?></span>
 					<br><br>
-				<td>
+				</td>
 			</tr>
 		</table>
 		<input type="submit" value="Login">  
@@ -55,6 +100,7 @@
 	unset($_SESSION['loginMsg']);
 	#
 	?></div>
+</div>
 
 	<script src=" ../asset/js/DeliveryManagerCheckLogin.js"></script>
 

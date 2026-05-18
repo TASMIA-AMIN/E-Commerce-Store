@@ -11,10 +11,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Active Deliveries</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 
 	<div id="messageBox" style="display:none; padding:10px; margin-bottom:10px;"></div>
 
@@ -24,7 +28,7 @@
 	<p>Deliveries that are already dispatched</p>
 
 	<?php if(count($assignments)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>Assignment ID</th>
@@ -101,13 +105,15 @@
 	</td>
 </tr>
 </tbody>
+</table>
 	<?php }
 	else{ ?>
 		<div><?php echo "Currently No Dispatched Order!!!"; ?></div>
 	<?php } ?>
 
+
 	<script src="../asset/js/DeliveryManagerChangeOrderStatus.js"></script>
-	
+	</mainBody>
 
 </body>
 </html>

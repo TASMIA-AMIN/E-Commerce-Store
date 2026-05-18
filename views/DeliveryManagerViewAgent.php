@@ -11,16 +11,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>View Agents</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 	
 	<h1>View Agents</h1>
 	<p>View all agent details along with their delivery count</p>
 	
 	<?php if(count($agents)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -46,9 +50,11 @@
 				</tr>
 			<?php } ?>
 		</tbody>
+	</table>
 	<?php }
 	else{ ?>
 		<div><?php echo "Currently No Agent is Registered"; ?></div>
 	<?php } ?>
+</mainBody>
 </body>
 </html>

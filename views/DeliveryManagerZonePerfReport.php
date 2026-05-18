@@ -11,18 +11,22 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Zone Performance Report</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 	
 	<h1>Zone Performance Report</h1>
-	<h3>Report based on zones</h4>
+	<h3>Report based on zones</h3>
 	
 	<div>
 	<h4>Deliveries per Zone</h4>
 	<?php if(count($deliveryZones)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -74,5 +78,6 @@
 		<div><?php echo "Currently No Order Has Been Dispatched"; ?></div>
 	<?php } ?>
 </div>
+</mainBody>
 </body>
 </html>

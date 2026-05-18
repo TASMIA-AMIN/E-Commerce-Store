@@ -1,4 +1,4 @@
-<div id="sidebar">
+<sidebar>
 <li><a href="../controller/DeliveryManagerDashboardController.php">Dashboard</a></li>
 <li>
     Delivery Agents Menu
@@ -24,6 +24,5 @@
 		<li><a href="../controller/DeliveryManagerZonePerfReportController.php">Zone Performance Report</a></li>
 	</ul>
 </li>
-<li><a href="../controller/DeliveryManagerManageAccount.php">Manage Account</a></li>
 <li><a href="../controller/DeliveryManagerLogoutController.php">Logout</a></li>
-</div>
+</sidebar>

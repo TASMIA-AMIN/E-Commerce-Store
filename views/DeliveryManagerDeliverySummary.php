@@ -11,10 +11,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Delivery Summary</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 	
 	<h1>Delivery Summary</h1>
 	<p>Daily and weekly summary of deliveries</p>
@@ -33,5 +37,6 @@
 		Total In-Transit this week: <?php echo $weekly['total_in_transit'] ?><br>
 		Total Deliveries this week:<?php echo $weekly['total_deliveries'] ?><br>
 	</div>
+</mainBody>
 </body>
 </html>

@@ -11,10 +11,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Agent Performance Report</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 	
 	<h1>Agents Performance Report</h1>
 	<h3>Report on the basis of performance</h3>
@@ -22,7 +26,7 @@
 <div>
 	<h4>Deliveries Completed by Agents</h4>
 	<?php if(count($completedAgents)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -50,7 +54,7 @@
 <div>
 	<h4>Failed Deliveries by Agents</h4>
 	<?php if(count($failedAgents)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -81,7 +85,7 @@
 <div>
 	<h4>Average Time per Agent</h4>
 	<?php if(count($timeAgents)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -105,5 +109,6 @@
 		<div><?php echo "Currently No Agent Has Been Assigned"; ?></div>
 	<?php } ?>
 </div>
+</mainBody>
 </body>
 </html>

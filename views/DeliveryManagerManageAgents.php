@@ -11,10 +11,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Manage Agents</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 
 	<div id="messageBox" style="display:none; padding:10px; margin-bottom:10px;"></div>
 
@@ -25,7 +29,7 @@
 		<button>Add New Agent</button>
 	</a>
 	<?php if(count($agents)>0){ ?>
-		<table>
+		<table id="data">
 			<thead>
 			<tr>
 				<th>ID</th>
@@ -117,10 +121,12 @@
 	</td>
 </tr>
 </tbody>
+</table>
 	<?php }
 	else{ ?>
 		<div><?php echo "Currently No Agent is Registered"; ?></div>
 	<?php } ?>
+</mainBody>
 
 	<script src="../asset/js/DeliveryManagerEditActivateAgent.js"></script>
 	

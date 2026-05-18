@@ -10,10 +10,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Add New Zone</title>
+	<link rel="stylesheet" href="../asset/css/style.css">
 </head>
 <body>
 
+	<?php include '../views/DeliveryManagerHeader.php' ?>
 	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
+	<mainBody>
 
 	<h1>Add New Zone</h1>
 
@@ -71,6 +75,7 @@
 	<div id="dupMsg">
 		<?php echo isset($dupMsg) ? $dupMsg : ""; ?>		
 	</div>
+</mainBody>
 
 	<script src="../asset/js/DeliveryManagerCheckNewZone.js"></script>
 
