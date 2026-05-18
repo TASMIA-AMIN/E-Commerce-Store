@@ -1,32 +1,73 @@
 <?php
 
+session_start();
 
-function addToCart($id, $name, $price)
+function addToCart($product)
 {
 	if(!isset($_SESSION['cart']))
 	{
-		$_SESSION['cart'] = array();
+		$_SESSION['cart'] = [];
+	}
+	$id = $product['id'];
+
+	if(isset($_SESSION['cart'][$id]))
+	{
+		$_SESSION['cart'][$id]['qty'] += 1;
 	}
 
-	$_SESSION['cart'][] = array("id"=> $id, "name"=> $name, "price"=> $price, "qty"=> 1);
+	else
+	{
+		$_SESSION['cart'][$id] = ['id' => $product['id'], 'name' => $product['name'], 'price' => $product['price'], 'qty' => 1];
+	}
 }
+
+
+function removeFromCart($id)
+{
+	if(isset($_SESSION['cart'][$id]))
+	{
+		unset($_SESSION['cart'][$id]);
+	}
+}
+
 
 function getCart()
 {
-	if(isset($_SESSION['cart']))
+	if(!isset($_SESSION['cart']))
 	{
-		return $_SESSION['cart'];
+		return [];
 	}
-	return array();
+	return $_SESSION['cart'];
 }
 
-function removeFromCart($index)
+
+function updateCart($id, $qty)
 {
-	if(isset($_SESSION['cart'][$index]))
+	if(isset($_SESSION['cart'][$id]))
 	{
-		unset($_SESSION['cart'][$index]);
-		$_SESSION['cart'] = array_values($_SESSION['cart']);
+		if($qty > 0)
+		{
+			$_SESSION['cart'][$id]['qty'] = $qty;
+		}
+		else
+		{
+			unset($_SESSION['cart'][$id]);
+		}
 	}
 }
+
+function cartTotal()
+{
+	$total = 0;
+	if(isset($_SESSION['cart']))
+	{
+		foreach($_SESSION['cart'] as $c)
+		{
+			$total += $c['price'] * $c['qty'];
+		}
+	}
+	return $total;
+}
+
 
 ?>

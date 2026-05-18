@@ -1,21 +1,12 @@
 <?php
-session_start();
+
 
 if(!isset($_SESSION['user_name']))
 {
 	header("Location: clogin.php");
 	exit();
 }
- if(!empty($_SESSION['products']))
- {
- 	$products = $_SESSION['products'];
- }
- else
- {
- 	$products = array();
- }
 
- unset($_SESSION['products']);
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +19,7 @@ if(!isset($_SESSION['user_name']))
 	<p> Welcome <?php echo $_SESSION['user_name']; ?> !</p>
 
 	<ul>
-		<li><a href="cdashboard.php">Dashboard</a></li>
+		<li><a href="../views/cdashboard.php">Dashboard</a></li>
 		<li><a href="../controllers/ccartController.php?action=view">Cart</a></li>
 		<li><a href="wishlist.php">Wishlist</a></li>
 		<li><a href="orders.php">Orders</a></li>
@@ -44,19 +35,38 @@ if(!isset($_SESSION['user_name']))
 			<th>Action</th>
 		</tr>
 	
-	<?php foreach($products as $p): ?>
+
+<?php
+
+if(!empty($products))
+{
+	foreach($products as $p)
+	{
+		print "
 		<tr>
-		<td><?php echo $p['id']; ?></td>
-		<td><?php echo $p['name']; ?></td>
-		<td><?php echo $p['price']; ?></td>
-		<td><?php echo $p['stock_qty']; ?></td>
-		<td>
-			<a href="../controllers/ccartController.php?action=add&id=<?php echo $p['id']; ?>&name=<?php echo $p['name']; ?>&price=<?php echo $p['price']; ?>">
-				Add to Cart
-			</a>
-		</td>
+			<td>".$p['id']."</td>
+			<td>".htmlspecialchars($p['name'])."</td>
+			<td>".$p['price']."</td>
+			<td>".$p['stock_qty']."</td>
+			<td>
+				<a href='../controllers/ccartController.php?action=add&id=".$p['id']."'>
+					Add to Cart
+				</a>
+			</td>
+		</tr>
+		";
+	}
+}
+else
+{
+	print "
+	<tr>
+		<td colspan='5'>No products available</td>
 	</tr>
-		<?php endforeach; ?>	
-	</table>
+	";
+}
+
+?>
+    </table>
 </body>
 </html>

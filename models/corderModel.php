@@ -1,19 +1,32 @@
 <?php
-
-function createOrder($conn, $customer_id, $address, $payment, $subtotal, $total)
+function createOrder($conn, $user_id, $address, $delivery_zone, $payment_method, $subtotal, $total)
 {
-	$sql = "INSERT INTO orders (customer_id, shipping_address, payment_method, subtotal, total_amount, status)
-	        VALUES ('$customer_id', '$address', '$payment', '$subtotal', '$total', 'pending')";
-	mysqli_query($conn, $sql);
+	$sql1 = "INSERT INTO orders (user_id, address, delivery_zone, payment_method, subtotal, total)
+	        VALUES ('$user_id', '$address', '$delivery_zone', '$payment_method', '$subtotal', '$total')";
 
-	return mysqli_insert_id($conn);
+	mysqli_query($conn, $sql1);
+
+	$sql2 = "SELECT id FROM orders WHERE user_id='$user_id' ORDER BY id DESC LIMIT 1";
+	$result = mysqli_query($conn, $sql2);
+	$row = mysqli_fetch_assoc($result);
+
+	return $row['id'];
 }
 
-function createOrderItem($conn, $order_id, $product_id, $seller_id, $qty, $price)
+function saveOrderItems($conn, $order_id, $cart)
 {
-	$sql = "INSERT INTO order_items (order_id, product_id, seller_id, quantity, unit_price)
-	        VALUES ('$order_id', '$product_id', '$seller_id', '$qty', '$price')";
-	mysqli_query($conn, $sql);
+	foreach($cart as $c)
+	{
+		$product_id = $c['id'];
+		$product_name = $c['name'];
+		$price = $c['price'];
+		$qty = $c['qty'];
+
+		$sql = "INSERT INTO order_items(order_id, product_id, product_name, price, qty)
+		        VALUES('$order_id', '$product_id', '$product_name', '$price', '$qty')";
+
+		mysqli_query($conn, $sql);
+	}
 }
 
 ?>

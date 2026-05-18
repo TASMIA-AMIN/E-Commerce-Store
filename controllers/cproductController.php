@@ -2,6 +2,18 @@
 
 session_start();
 
+if(!isset($_SESSION['user_id']))
+{
+	header("Location: ../views/clogin.php");
+	exit();
+}
+
+if($_SESSION['role'] != 'customer')
+{
+	header("Location: ../views/clogin.php");
+    exit();
+}
+
 require_once "../config/connect.php";
 require_once "../models/cproductModel.php";
 
@@ -12,14 +24,12 @@ if($conn)
 }
 else
 {
-	$products = array();
+	$products = [];
 }
 mysqli_close($conn);
 
 
-$_SESSION['products'] = $products;
 
-header("Location: ../views/cproducts.php");
-exit();
+require "../views/cproducts.php";
 
 ?>

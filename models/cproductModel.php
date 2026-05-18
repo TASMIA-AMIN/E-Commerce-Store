@@ -2,8 +2,13 @@
 
 function getAllProducts($conn)
 {
-	$sql = "SELECT * FROM products";
+	$sql = "SELECT * FROM products WHERE is_available=1";
 	$result = mysqli_query($conn, $sql);
+
+    if(!$result)
+    {
+        return [];
+    }
 
 	$products = array();
 
