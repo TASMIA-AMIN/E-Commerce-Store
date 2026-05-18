@@ -2,7 +2,7 @@
     Delivery Agents Menu
     <ul>
         <li class=><a href="../controller/DeliveryManagerManageAgentController.php">Manage Agents</a></li>
-        <li><a href="../views/DeliveryManagerViewAgents.php">View Agents</a></li>
+        <li><a href="../controller/DeliveryManagerViewAgentController.php">View Agents</a></li>
         <li><a href="../views/DeliveryManagerAssignAgents.php">Assign Agents</a></li>
         <li><a href="../views/DeliveryManagerAgentPerfReport.php">Agent Performance Report</a></li>
     </ul>

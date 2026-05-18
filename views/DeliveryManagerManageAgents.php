@@ -13,6 +13,9 @@
 	<title>Manage Agents</title>
 </head>
 <body>
+
+	<?php require '../views/DeliveryManagerSideBar.php' ?>
+	
 	<h1>Manage Agents</h1>
 	<p>Register new agents and update information for preregistered agents</p>
 	<a href="../controller/DeliveryManagerNewAgentController.php">

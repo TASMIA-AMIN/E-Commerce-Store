@@ -12,6 +12,9 @@
 	<title>Register New Agent</title>
 </head>
 <body>
+
+	<?php require '../views/DeliveryManagerSideBar.php' ?>
+
 	<h1>Register New Agent</h1>
 
 	<form method="post" action="../controller/DeliveryManagerNewAgentController.php" onsubmit="return checkNewAgent(this)">
