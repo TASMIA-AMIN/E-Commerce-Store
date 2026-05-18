@@ -47,7 +47,6 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
--- ── Product Images ────────────────────────────────────────────
 CREATE TABLE product_images (
     id            INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     product_id    INT NOT NULL,
@@ -56,7 +55,6 @@ CREATE TABLE product_images (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
--- ── Coupons ───────────────────────────────────────────────────
 CREATE TABLE coupons (
     id           INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     seller_id    INT NOT NULL,
@@ -69,7 +67,6 @@ CREATE TABLE coupons (
     FOREIGN KEY (seller_id) REFERENCES sellers(id)
 );
 
--- ── Orders ───────────────────────────────────────────────────
 CREATE TABLE orders (
     id              INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     customer_id     INT NOT NULL,
@@ -84,7 +81,6 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES users(id)
 );
 
--- ── Order Items ───────────────────────────────────────────────
 CREATE TABLE order_items (
     id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     order_id    INT NOT NULL,
@@ -112,7 +108,6 @@ CREATE TABLE reviews (
     FOREIGN KEY (customer_id) REFERENCES users(id)
 );
 
-
 CREATE TABLE return_requests (
     id            INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     order_id      INT NOT NULL,
@@ -125,7 +120,6 @@ CREATE TABLE return_requests (
     FOREIGN KEY (order_item_id) REFERENCES order_items(id),
     FOREIGN KEY (customer_id)   REFERENCES users(id)
 );
-
 
 INSERT INTO categories (id, parent_id, name) VALUES
   (1, NULL, 'Electronics'),
