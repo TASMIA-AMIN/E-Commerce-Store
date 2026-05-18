@@ -13,7 +13,7 @@ function getSellerByEmail($conn, $email)
 
 function emailExists($conn, $email)
 {
-    $email  = htmlspecialchars(strip_tag(trim($email)));
+    $email  = htmlspecialchars(strip_tags(trim($email)));
     $sql    = "SELECT id FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
     return mysqli_num_rows($result) > 0;
