@@ -1,61 +1,56 @@
-<?php
-session_start();
-
-if(!isset($_SESSION['user_name']))
-{
-	header("Location:clogin.php");
-	exit();
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Order Details</title>
 </head>
 <body>
-	<h2>Order Details</h2>
-	<?php if (!empty($order)): ?>
 
-		<p><b>Order ID: </b> <?php echo $order['id']; ?></p>
-		<p><b>Address: </b> <?php echo $order['address']; ?></p>
-		<p><b>Delivery Zone: </b> <?php echo $order['delivery_zone']; ?></p>
-		<p><b>Payment Method: </b> <?php echo $order['payment_method']; ?></p>
+<h2>Order Details</h2>
 
-		<hr>
-		<h3>Items</h3>
-		<table border ="1">
-		<tr>
-			<th>Product ID</th>
-			<th>Name</th>
-			<th>Price</th>
-			<th>QTY</th>
-		</tr>
+<p><b>Order ID:</b> <?php echo $order['id']; ?></p>
 
-		<?php foreach($items as $i): ?>
-			<tr>
-				<td><?php echo $i['product_id']; ?></td>
-				<td><?php echo $i['product_name']; ?></td>
-				<td><?php echo $i['price']; ?></td>
-				<td><?php echo $i['qty']; ?></td>
-			</tr>
-		<?php endforeach; ?>
+<p><b>Shipping Address:</b> <?php echo $order['shipping_address']; ?></p>
 
-	    </table>
+<p><b>Payment Method:</b> <?php echo $order['payment_method']; ?></p>
 
-	<?php else: ?>
-		<p> Order not found </p>
-	<?php endif; ?>
+<p><b>Status:</b> <?php echo $order['status']; ?></p>
 
-	<br><br>
+<hr>
 
-    <a href="../controllers/corderController.php?action=list">Back to Orders</a>
+<h3>Items</h3>
+
+<table border="1">
+	<tr>
+		<th>Product ID</th>
+		<th>Name</th>
+		<th>Price</th>
+		<th>Qty</th>
+	</tr>
+
+	<?php foreach($items as $i): ?>
+
+	<?php
+	$product_id = $i['product_id'];
+
+	$sql = "SELECT name, price FROM products WHERE id='$product_id'";
+	$result = mysqli_query($conn, $sql);
+	$product = mysqli_fetch_assoc($result);
+	?>
+
+	<tr>
+		<td><?php echo $product_id; ?></td>
+		<td><?php echo $product['name']; ?></td>
+		<td><?php echo $product['price']; ?></td>
+		<td><?php echo $i['quantity']; ?></td>
+	</tr>
+
+	<?php endforeach; ?>
+
+</table>
+
+<br>
+
+<a href="../controllers/corderController.php?action=list">Back to Orders</a>
 
 </body>
 </html>
-
-
-
-
-	
-

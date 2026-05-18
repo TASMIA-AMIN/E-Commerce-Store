@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +5,7 @@ session_start();
 </head>
 <body>
 	<h2>My Profile</h2>
-	<p>Welcome <?php echo $_SESSION['user_name']; ?></p>
-
+	
 	<?php if(!empty($user)): ?>
 		<form action="../controllers/cprofileController.php?action=update" method="POST" enctype="multipart/form-data">
 			<label for="name">Name: </label>
@@ -52,7 +47,7 @@ session_start();
 
 	<?php endif; ?>
 	<br>
-	<a href="cdashboard.php">Back to Dashboard</a>
+	<a href="../views/cdashboard.php"> Back to Dashboard </a>
 </body>
 </html>
 

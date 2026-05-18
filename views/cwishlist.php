@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +5,7 @@ session_start();
 </head>
 <body>
 	<h2>My Wishlist</h2>
-	<p>Welcome <?php echo $_SESSION['user_name']; ?></p>
+	
 	<table border="1">
 		<tr>
 			<th>ID</th>
@@ -35,7 +31,7 @@ session_start();
 		<?php endif; ?>
 	</table>
 	<br>
-	<a href="cdashboard.php">BAck to Dashboard</a>
+	<a href="../views/cdashboard.php"> Back to Dashboard </a>
 </body>
 </html>
 

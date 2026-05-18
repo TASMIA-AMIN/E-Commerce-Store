@@ -18,14 +18,6 @@ if(!isset($_SESSION['user_name']))
 	<h2>Products</h2>
 	<p> Welcome <?php echo $_SESSION['user_name']; ?> !</p>
 
-	<ul>
-		<li><a href="../views/cdashboard.php">Dashboard</a></li>
-		<li><a href="../controllers/ccartController.php?action=view">Cart</a></li>
-		<li><a href="wishlist.php">Wishlist</a></li>
-		<li><a href="orders.php">Orders</a></li>
-		<li><a href="clogout.php">Logout</a></li>
-	</ul>
-
 	<table border="1">
 		<tr>
 			<th>ID</th>
@@ -49,9 +41,7 @@ if(!empty($products))
 			<td>".$p['price']."</td>
 			<td>".$p['stock_qty']."</td>
 			<td>
-				<a href='../controllers/ccartController.php?action=add&id=".$p['id']."'>
-					Add to Cart
-				</a>
+				<a href='../controllers/ccartController.php?action=add&product_id=".$p['id']."'>Add to Cart</a>
 			</td>
 		</tr>
 		";
@@ -68,5 +58,7 @@ else
 
 ?>
     </table>
+    <br>
+	<a href="../views/cdashboard.php"> Back to Dashboard </a>
 </body>
 </html>
