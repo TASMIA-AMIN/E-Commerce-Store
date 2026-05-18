@@ -3,14 +3,14 @@
     <ul>
         <li class=><a href="../controller/DeliveryManagerManageAgentController.php">Manage Agents</a></li>
         <li><a href="../controller/DeliveryManagerViewAgentController.php">View Agents</a></li>
-        <li><a href="../views/DeliveryManagerAssignAgents.php">Assign Agents</a></li>
+        <li><a href="../controller/DeliveryManagerShippedOrderController.php">Assign Agents</a></li>
         <li><a href="../views/DeliveryManagerAgentPerfReport.php">Agent Performance Report</a></li>
     </ul>
 </li>
 <li>
 	Orders Menu
 	<ul>
-		<li><a href="../views/DeliveryManagerViewOrder.php">View Orders</a></li>
+		<li><a href="../views/DeliveryManagerViewOrder.php">View All Orders</a></li>
 	</ul>
 </li>
 <li>
